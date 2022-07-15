@@ -5,39 +5,50 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 
+const port = process.env.PORT || 3000
+
 
 app.get("/", function(req, res){
 	res.sendFile(__dirname + "/index.html");
 });
 
 app.post("/", function(req, res){
-// console.log(req.body);
 
-//  Convert to interger using the parseInt
-// var num1 = parseInt(req.body.num1);
-// var num2 = parseInt(req.body.num2);
-
-// Using the Number Constructor
+//  Convert to interger using the parseInt or unary operator ( + _)
+// Using the Number Constructor or 
 // var num1 = Number(req.body.num1);
 // var num2 = Number(req.body.num2);
 
-// convert to interger using the unary + operator
-var num1 = +(req.body.num1);
-var num2 = +(req.body.num2);
+var number1 = parseFloat(req.body.number1);
+var number2 = parseFloat(req.body.number2);
+var operator = (req.body.operator);
 
-var results = num1 + num2;
+let result;
 
+// using if...else if... else
+if (operator == '+') {
+    result = number1 + number2;
+}
+else if (operator == '-') {
+    result = number1 - number2;
+}
+else if (operator == '*') {
+    result = number1 * number2;
+}
+else {
+    result = number1 / number2;
+}
 
-var sub1 = +(req.body.sub1);
-var sub2 = +(req.body.sub2);
+// display the result
+console.log(`${number1} ${operator} ${number2} = ${result}`);
 
-var results = sub1 - sub2;
+console.log(result);
 
-console.log(results);
-
-	res.send("Your result is: " + results);
+	res.send("Your result is: " + result);
 });
 
-app.listen(3000, function(){
+app.listen(port, function(){
 	console.log("Server started on port 3000");
 });
+
+
